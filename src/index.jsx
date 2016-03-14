@@ -4,6 +4,7 @@ import {Router, Route, hashHistory} from 'react-router';
 import {createStore} from 'redux';
 import reducer from './reducer';
 import {Provider} from 'react-redux';
+import io from 'socket.io-client';
 import App from './components/App';
 import {VotingContainer} from './components/Voting';
 import {ResultsContainer} from './components/Results';
@@ -17,7 +18,13 @@ store.dispatch({
       tally: {Sunshine: 2}
     }
   }
-})
+});
+
+const socket = io(`${location.protocol}//${location.hostname}:8090`);
+socket.on('state', state => {
+  store.dispatch({type: 'SET_STATE', state});
+  console.log('STATE', state);
+});
 
 
 const pair = ['Trainspotting', '28 Days Later'];
