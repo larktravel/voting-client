@@ -67,7 +67,7 @@ describe('reducer', () => {
     }));
   });
 
-  it('handles VOTE by setting hasVoted', () => {
+  it('handles VOTE by setting myVote', () => {
     const round = 3;
     const state = fromJS({
       vote:{
@@ -85,7 +85,10 @@ describe('reducer', () => {
         tally: {Trainspotting: 1},
         round: round
       },
-      hasVoted: {Trainspotting: round}
+      myVote: {
+        round: 3,
+        entry: "Trainspotting"
+      }
     }));
   });
 
