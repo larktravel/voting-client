@@ -68,10 +68,12 @@ describe('reducer', () => {
   });
 
   it('handles VOTE by setting hasVoted', () => {
+    const round = 3;
     const state = fromJS({
       vote:{
         pair: ['Trainspotting', '28 Days Later'],
-        tally: {Trainspotting: 1}
+        tally: {Trainspotting: 1},
+        round: round
       }
     });
     const action = {type:'VOTE', entry:'Trainspotting'};
@@ -80,11 +82,12 @@ describe('reducer', () => {
     expect(nextState).to.equal(fromJS({
       vote: {
         pair: ['Trainspotting', '28 Days Later'],
-        tally: {Trainspotting: 1}
+        tally: {Trainspotting: 1},
+        round: round
       },
-      hasVoted: 'Trainspotting'
+      hasVoted: {Trainspotting: round}
     }));
-  })
+  });
 
   it('does not set hasVoted for VOTE on invalid entry', () => {
     const state = fromJS({

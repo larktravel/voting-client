@@ -2,6 +2,7 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import Winner from './Winner';
+import * as actionCreators from '../action_creators';
 
 
 export const Results = React.createClass({
@@ -16,8 +17,16 @@ export const Results = React.createClass({
     return 0;
   },
   render: function() {
-    return this.props.winner ?
-      <Winner ref="winner" winner={this.props.winner} /> :
+    console.log('this.props', this.props)
+    return this.props.winner ? (
+        <div>
+          <Winner ref="winner" winner={this.props.winner} />
+          <button
+            ref="restart"
+            className="restart"
+            onClick={this.props.restart}>Restart</button>
+        </div>
+      ) : (
       <div className="results">
         <div className="tally">
           {this.getPair().map(entry =>
@@ -31,6 +40,10 @@ export const Results = React.createClass({
         </div>
         <div className="management">
           <button
+            ref="restart"
+            className="restart"
+            onClick={this.props.restart}>Restart</button>
+          <button
             ref="next"
             className="next"
             onClick={this.props.next}>
@@ -38,10 +51,13 @@ export const Results = React.createClass({
           </button>
         </div>
       </div>
+    )
   }
 });
 
 function mapStateToProps(state) {
+  console.log('mapStateToProps', state)
+  console.log('winnnaaa', state.get('winner'))
   return {
     pair: state.getIn(['vote', 'pair']),
     tally: state.getIn(['vote', 'tally']),
@@ -49,4 +65,7 @@ function mapStateToProps(state) {
   }
 }
 
-export const ResultsContainer = connect(mapStateToProps)(Results);
+export const ResultsContainer = connect(
+  mapStateToProps,
+  actionCreators
+)(Results);
